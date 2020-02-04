@@ -1,0 +1,62 @@
+---
+title: "In class activity 4"
+author: "Matthew Rhodes"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: example.bib
+---
+
+```{r, setup, echo=TRUE, include=TRUE, collapse=FALSE, warning=TRUE}
+knitr::read_chunk("child.R")
+```
+
+
+```{r, import-data, cache=TRUE, cache.extra=tools::md5sum('defects.csv')}
+library(here)
+data_from_stats <- read.csv(here('defects.csv'))
+```
+
+```{r, dependson= "import-data"}
+library(tidyverse)
+data_from_stats %>%
+  filter(Method == "A") %>%
+  select(Weight) %>%
+  knitr::kable(caption = "Data on Defects")
+```
+
+```{r, starwars-plot, fig.cap= "A ggplot of starwars stuff"}
+
+library(tidyverse)
+starwars %>%
+filter(species == "Human") %>%
+ggplot() + aes(x = height, y =mass) + geom_point()
+```
+
+We can see figure \@ref(fig:starwars-plot)
+
+```{r starwars-tbl}
+starwars %>% 
+  filter(species == "Droid") %>%
+  select(name, height, mass, homeworld) %>%
+  knitr::kable(caption = "A knitr table")
+```
+
+We can see in Table \@ref(tab:starwars-tbl)
+
+```{r, my-fig, fig.cap=" figure with no code"}
+library(here)
+knitr::include_graphics(here("Burger.jpg"))
+
+```
+\ref(fig)
+
+This is some code thats in a different file
+```{r, child-code, eval=TRUE}
+```
+
+about: [@eglinton1967chemical]
+reference2: [@cline1992economics]
